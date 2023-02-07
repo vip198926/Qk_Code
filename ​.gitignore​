@@ -1,0 +1,4 @@
+.git/
+__pycache__/
+notify.py
+sendNotify.js
