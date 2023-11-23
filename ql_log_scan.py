@@ -155,6 +155,21 @@ class QlLogScan(Depend):
             result += "👷‍♀️读取日志异常日志：\n\n"
             for i in self.log_stat["readlog_err"]:
                 result += "⚠" + i + "\n"
+
+        # 获取/目录的磁盘信息
+        info = os.statvfs('/')
+        #获取/根目录可用空间
+        free_size = round(info.f_bsize * info.f_bavail / 1024 / 1024, 2)
+        #获取/根目录容量空间
+        total_size = round(info.f_blocks * info.f_bsize / 1024 / 1024, 2)
+        #计算当前空间使用率
+        used_percent = round((total_size-free_size) / total_size * 100, 2)
+
+        #print(f'容量空间:{total_size} MB')
+        #print(f'可用空间:{free_size} MB')
+        #print(f'空间使用率:{used_percent} %')
+        result += f" 硬盘空间:{total_size} MB\n 可用空间:{free_size} MB\n 使 用 率:{used_percent} %\n"
+        
         send("🐲青龙日志分析", result)
         return result
 
